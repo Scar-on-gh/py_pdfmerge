@@ -1,0 +1,25 @@
+# Lines that start with "#" are comments.
+# You can use [Aa]aple to include caps/lowercase
+# Check what is not ignored
+# git ls-files --others --exclude-from=.git/info/exclude
+# Check what is ignored
+# git check-ignore *
+
+# Python build related:
+dist/
+*egg-info/
+__pycache__
+
+# Python venv related:
+venv/
+
+# Debug files:
+*.log
+*~
+*.bak
+
+# Local files:
+actual_files_to_merge
+files_to_merge
+merged_files
+.helper_sh
