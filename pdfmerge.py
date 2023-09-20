@@ -30,18 +30,21 @@ python pdfmerge.py
 ----------------------------------------------------
 """
 
-from typing import Union # Globally required, used for function type hints.
-from pathlib import Path # Globally required, used for type hints
-import logging # For logging of debug, info, warning, errors
-import sys # Needed for logging
+from typing import Union    # Globally required, used for function type hints.
+from pathlib import Path    # Globally required, used for type hints
+import logging              # For logging of debug, info, warning, errors
+import sys                  # Needed for logging
+import code                 # Interactive debug
+
+# Setup logging
 log_fh = logging.FileHandler(filename="pdfmerge.log")
 stdout_handler = logging.StreamHandler(stream=sys.stdout)
 handlers = [log_fh, stdout_handler]
-
 logging.basicConfig(
     level=logging.DEBUG,
-    # format='[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s',
-    format='[%(asctime)s] %(levelname)s: %(message)s', 
+    format='[%(asctime)s] %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+    #format='[%(asctime)s] %(levelname)s: %(message)s', 
+    datefmt='%Y-%m-%d %H:%M:%S', 
     #datefmt='%d-%b-%y %H:%M:%S', 
     handlers=handlers
 )
@@ -115,9 +118,13 @@ def main():
     parser.add_argument("-o", "--output_dir", help="Provide custom output dir to place merged pdfs", 
         required=False, default=pdf_output_dir)
     parser.add_argument("-f", "--output_file", help="Provide custom output filename to place merged pdfs", 
-        required=False, default=pdf_output_fn) 
+        required=False, default=pdf_output_fn)
+    parser.add_argument("-n", "--nogui", help="Run script in non-GUI mode to make choices easier", 
+        required=False, action=store_true)
+    parser.add_argument("-d", "--debug", help="Run script in debug mode.", 
+        required=False, action=store_true) 
     args = parser.parse_args()
-
+    
     # Assign possible arg appropriately, uses default if arg not used.
     pdf_input_dir   = args.input_dir
     pdf_output_dir  = args.output_dir
